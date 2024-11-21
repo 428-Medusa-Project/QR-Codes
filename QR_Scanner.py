@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import time
+import webbrowser
 from pyzbar.pyzbar import decode
 
 # Initialize the webcam (0 is the default camera, change if needed)
@@ -37,11 +39,19 @@ def QR_Scanner():
             cv2.putText(frame, qr_data, (obj.rect[0], obj.rect[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
             
             # Executes QR code data depending on the associated tag
-            if qr_data.split(':')[0] == "txt":
+            if qr_data.split(':')[0].lower() == "txt":
                 print(qr_data[4:])
-            elif qr_data.split(':')[0] == "exe":
+            elif qr_data.split(':')[0].lower() == "exe":
                 exec(qr_data[4:])
-    
+            # elif qr_data.split(':')[0] == "pic":
+            #     with open('image.png', 'wb') as file:
+            #         file.write(qr_data[4:])
+            elif qr_data.split(':')[0].lower() == "url":
+                webbrowser.open(qr_data[4:])
+                
+            # Pauses the program for 1 second 
+            time.sleep(1)
+
         # Display the resulting frame
         cv2.imshow("QR Code Scanner", frame)
     
