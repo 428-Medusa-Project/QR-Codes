@@ -34,6 +34,7 @@ def QR_Scanner():
 
             # Get the data from the QR code
             qr_data = obj.data.decode('utf-8')
+            #qr_type, payload = qr_data.split(':', 1)
 
             # Put the decoded text on the screen
             cv2.putText(frame, qr_data, (obj.rect[0], obj.rect[1] - 10), 
@@ -44,6 +45,11 @@ def QR_Scanner():
                 print(qr_data[4:])
             elif qr_data.split(':')[0].lower() == "exe":
                 exec(qr_data[4:])
+            # if qr_data.split(':')[0].lower() == "js":
+            #     # Create a WebView window and inject JavaScript
+            #     print(f"JavaScript Payload: {payload}")
+            #     window = webview.create_window('JavaScript Injection', 'http://localhost:5176/')
+            #     webview.start(lambda: window.evaluate_js(payload))    
             else:
                 parsed = urlparse(qr_data)
                 if parsed.scheme in ["http", "https"]:
