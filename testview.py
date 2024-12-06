@@ -5,7 +5,6 @@ from urllib.parse import urlparse
 from pyzbar.pyzbar import decode
 import webview
 
-# Initialize the webcam (0 is the default camera, change if needed)
 cap = cv2.VideoCapture(0)
 
 def QR_Scanner():
@@ -45,17 +44,12 @@ def QR_Scanner():
                 print(qr_data[4:])
             elif qr_data.split(':')[0].lower() == "exe":
                 exec(qr_data[4:])
-            # if qr_data.split(':')[0].lower() == "js":
-            #     # Create a WebView window and inject JavaScript
-            #     print(f"JavaScript Payload: {payload}")
-            #     window = webview.create_window('JavaScript Injection', 'http://localhost:5176/')
-            #     webview.start(lambda: window.evaluate_js(payload))    
             else:
                 parsed = urlparse(qr_data)
-                if parsed.scheme in ["http", "https"]:
-                    print(f"Opening URL in WebView: {qr_data}")
-                    webview.create_window('QR Code URL', qr_data)
-                    webview.start()  # Launch WebView
+                #if parsed.scheme in ["http", "https"]:
+                print(f"Opening URL in WebView: {qr_data}")
+                webview.create_window('QR Code URL', qr_data)
+                webview.start()  # Launch WebView
 
         # Display the resulting frame
         cv2.imshow("QR Code Scanner", frame)
